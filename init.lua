@@ -401,46 +401,46 @@ require("lazy").setup({
 			})
 
 			-- Basic keymaps
-			vim.keymap.set("n", "<leader>a", function()
-				harpoon:list():add()
-			end)
-			vim.keymap.set("n", "<C-e>", function()
-				harpoon.ui:toggle_quick_menu(harpoon:list())
-			end)
+      vim.keymap.set('n', '<leader>a', function()
+        harpoon:list():add()
+      end)
+      vim.keymap.set('n', '<C-e>', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end)
 
-			-- Navigate to specific files
-			vim.keymap.set("n", "<C-h>", function()
-				harpoon:list():select(1)
-			end)
-			vim.keymap.set("n", "<C-t>", function()
-				harpoon:list():select(2)
-			end)
-			vim.keymap.set("n", "<C-n>", function()
-				harpoon:list():select(3)
-			end)
-			vim.keymap.set("n", "<C-s>", function()
-				harpoon:list():select(4)
-			end)
+      -- Navigate to specific files
+      vim.keymap.set('n', '<leader>1', function()
+        harpoon:list():select(1)
+      end)
+      vim.keymap.set('n', '<leader>2', function()
+        harpoon:list():select(2)
+      end)
+      vim.keymap.set('n', '<leader>3', function()
+        harpoon:list():select(3)
+      end)
+      vim.keymap.set('n', '<leader>4', function()
+        harpoon:list():select(4)
+      end)
 
-			-- Toggle previous & next buffers stored within Harpoon list
-			vim.keymap.set("n", "<C-S-P>", function()
-				harpoon:list():prev()
-			end)
-			vim.keymap.set("n", "<C-S-N>", function()
-				harpoon:list():next()
-			end)
+      -- Toggle previous & next buffers stored within Harpoon list
+      vim.keymap.set('n', '<leader>hp', function()
+        harpoon:list():prev()
+      end, { desc = 'Harpoon previous' })
+      vim.keymap.set('n', '<leader>hn', function()
+        harpoon:list():next()
+      end, { desc = 'Harpoon next' })
 
-			-- Remove current file from harpoon
-			vim.keymap.set("n", "<leader>d", function()
-				harpoon:list():remove()
-			end, { desc = "Remove file from harpoon" })
+      -- Remove current file from harpoon
+      vim.keymap.set('n', '<leader>d', function()
+        harpoon:list():remove()
+      end, { desc = 'Remove file from harpoon' })
 
-			-- Clear all harpoon marks
-			vim.keymap.set("n", "<leader>c", function()
-				harpoon:list():clear()
-			end, { desc = "Clear all harpoon marks" })
-		end,
-	},
+      -- Clear all harpoon marks
+      vim.keymap.set('n', '<leader>c', function()
+        harpoon:list():clear()
+      end, { desc = 'Clear all harpoon marks' })
+    end,
+  },
 
 	-- LSP Plugins
 	{
@@ -659,10 +659,12 @@ require("lazy").setup({
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
-				-- clangd = {},
-				-- gopls = {},
-				-- pyright = {},
-				-- rust_analyzer = {},
+				clangd = {},
+				gopls = {},
+				basedpyright = {},
+				rust_analyzer = {},
+				texlab = {},
+				marksman = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
 				-- Some languages (like typescript) have entire language plugins that can be useful:
@@ -894,6 +896,7 @@ require("lazy").setup({
 		opts = { signs = false },
 	},
 
+
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
 		config = function()
@@ -904,13 +907,6 @@ require("lazy").setup({
 			--  - yinq - [Y]ank [I]nside [N]ext [Q]uote
 			--  - ci'  - [C]hange [I]nside [']quote
 			require("mini.ai").setup({ n_lines = 500 })
-
-			-- Add/delete/replace surroundings (brackets, quotes, etc.)
-			--
-			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-			-- - sd'   - [S]urround [D]elete [']quotes
-			-- - sr)'  - [S]urround [R]eplace [)] [']
-			require("mini.surround").setup()
 
 			-- Simple and easy statusline.
 			--  You could remove this setup call if you don't like it,
@@ -949,6 +945,9 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
+				"python",
+				"rust",
+				"go",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
@@ -983,7 +982,10 @@ require("lazy").setup({
 	-- require 'kickstart.plugins.lint',
 	-- require 'kickstart.plugins.autopairs',
 	-- require 'kickstart.plugins.neo-tree',
-	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+	require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  'tpope/vim-fugitive', -- Git integration
+  'tpope/vim-commentary', -- Comment/uncomment with gc
+  'tpope/vim-surround', -- Surround with quotes, brackets, e.g. csiw" -> surround inner word with quotes
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.
